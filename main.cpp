@@ -5,7 +5,6 @@
 enum Color { RED, BLACK }; 
 
 struct Node { 
-
     int data; 
     Color color; 
     Node* parent; 
@@ -15,10 +14,9 @@ struct Node {
 };
 
 class RedBlackTree { 
-
 private:
     Node* root; 
-    void rotateleft(Node* node); 
+    void rotateLeft(Node* node); 
     void rotateRight(Node* node); 
     void fixViolation(Node* node); 
 
@@ -30,77 +28,58 @@ public:
 
 private: 
     void printHelper(Node* node, int space);
-
 };
 
 RedBlackTree::RedBlackTree() : root(nullptr) {}
 
 void RedBlackTree::add(int data) { 
-
     Node* newNode = new Node(data); 
     fixViolation(newNode);  
 } 
 
-
-void RedBlackTree::rotateleft(Node* node) { 
-
+void RedBlackTree::rotateLeft(Node* node) { 
     Node* rightChild = node->right; 
-    node->right = rightChild -> left; 
+    node->right = rightChild->left; 
     if (rightChild->left != nullptr) { 
-
-            rightChild->left->parent = node; 
-
-            if (node->paarent == nullptr) { 
-
-                root = rightChild; 
-                
-    
-            } else if { 
-    
-                node->parent->left = rightChild;             
-                
-            } else { 
-
-                node->parent->right = rightChild; 
-                
-            }
-
-        rightChild -> left = node; 
-        node-> parent = rightChild; 
-        
+        rightChild->left->parent = node; 
     }
-
-void RedBlackTree::rotateRight(Node* node) { 
-
-    Node* leftcChild = node->left; 
-    node->left = leftchild->right; 
-    if (leftChild != nullptr) { 
-        leftChild-> right -> parent = node; 
-
+    
+    if (rightChild != nullptr) {  
         if (node->parent == nullptr) { 
-
-            root = leftChild; 
-
-        } else if { 
-
-            node->parent->left = leftChild; 
-
-
+            root = rightChild; 
+        } else if (node == node->parent->left) { 
+            node->parent->left = rightChild;             
         } else { 
-            
-            node->parent->left = leftChild; 
-
+            node->parent->right = rightChild; 
         }
-
-        leftChild->right = node; 
-        node->parent = leftChild; 
     }
     
+    rightChild->left = node; 
+    node->parent = rightChild; 
 }
 
-
-void RedBlackTree::fixViolation(Node* node) { 
+void RedBlackTree::rotateRight(Node* node) { 
+    Node* leftChild = node->left; 
+    node->left = leftChild->right; 
+    if (leftChild->right != nullptr) { 
+        leftChild->right->parent = node; 
+    }
     
+    if (leftChild != nullptr) {  
+        if (node->parent == nullptr) { 
+            root = leftChild; 
+        } else if (node == node->parent->left) { 
+            node->parent->left = leftChild;             
+        } else { 
+            node->parent->right = leftChild; 
+        }
+    }
+    
+    leftChild->right = node; 
+    node->parent = leftChild; 
+}
+
+void RedBlackTree::fixViolation(Node* node) {
     Node* parent = nullptr; 
     Node* grandparent = nullptr; 
 
@@ -160,8 +139,7 @@ void RedBlackTree::fixViolation(Node* node) {
 
 }
 
-void RedBlackTree::readFromFile(const std::string& filename) { 
-
+void RedBlackTree::readFromFile(const std::string& filename) {
     std::ifstream file(filename); 
     if (!file.is_open()) { 
         std::cerr << "Unable to open file" << filename << std::endl;
@@ -178,19 +156,16 @@ void RedBlackTree::readFromFile(const std::string& filename) {
     }
 
     file.close();
-
 }
 
-
-void RedBlackTree::print() { 
-    if (root == nullptr) { 
+void RedBlackTree::print() {
+   if (root == nullptr) { 
         ctd::cout << "There is nothing in the tree" << std::end;
         return; 
 
     }
 
     printHelper(root, 0); 
-
 }
 
 void RedBlackTree::printHelper(Node* node, int space) {
@@ -225,4 +200,22 @@ void RedBlackTree::printHelper(Node* node, int space) {
 
     printHelper(node->left, space); 
 
+}
+
+int main() {
+    
+    RedBlackTree tree; 
+
+    int choice, num; 
+    std::string filename; 
+
+    while(true) { 
+        std::cout << "Options: " << std::endl;
+        std::cout << "1. Add a number" << std::endl;
+    }
+
+
+
+
+    return 0;
 }
