@@ -91,19 +91,19 @@ void RedBlackTree::fixViolation(Node* node) {
         if (parent == grandparent -> left) { 
             Node* uncle = grandparent->right;
 
-            if (uncle !-= nullptr && uncle->color == RED_ ) { 
+            if (uncle != nullptr && uncle->color == RED ) { 
                 grandparent->color = RED; 
                 parent->color = BLACK; 
                 uncle->color = BLACK; 
                 node = grandparent; 
             } else { 
                 if (node == parent->right) { 
-                    rotateleft(parent); 
+                    rotateLeft(parent); 
                     node = parent; 
                     parent = node->parent; 
                 }
 
-                roateRight(grandparent); 
+                rotateRight(grandparent); 
                 std::swap(parent->color, grandparent->color);
                 node = parent; 
             }
@@ -112,7 +112,7 @@ void RedBlackTree::fixViolation(Node* node) {
             Node* uncle = grandparent->left; 
 
             if (uncle != nullptr && uncle -> color == RED) { 
-                gradparent -> color = RED: 
+                grandparent -> color = RED; 
                 parent-> color = BLACK; 
                 uncle -> color = BLACK; 
                 node = grandparent; 
@@ -126,7 +126,7 @@ void RedBlackTree::fixViolation(Node* node) {
                 }
 
                 rotateLeft(grandparent);
-                std::swap(parent0>color, grandparent->color); 
+                std::swap(parent->color, grandparent->color); 
                 node = parent; 
 
 
@@ -142,13 +142,13 @@ void RedBlackTree::fixViolation(Node* node) {
 void RedBlackTree::readFromFile(const std::string& filename) {
     std::ifstream file(filename); 
     if (!file.is_open()) { 
-        std::cerr << "Unable to open file" << filename << std::endl;
-        reutrn; 
+        std::cerr << "Unable to open file " << filename << std::endl;
+        return; 
     }
 
     std::string line; 
-    while(sdt::getline(file, line)) { 
-        std::isstringstream iss(line);
+    while(std::getline(file, line)) { 
+        std::istringstream iss(line);
         int num;
         while (iss >> num) { 
             add(num); 
@@ -160,7 +160,7 @@ void RedBlackTree::readFromFile(const std::string& filename) {
 
 void RedBlackTree::print() {
    if (root == nullptr) { 
-        ctd::cout << "There is nothing in the tree" << std::end;
+        std::cout << "There is nothing in the tree" << std::endl;
         return; 
 
     }
@@ -169,7 +169,7 @@ void RedBlackTree::print() {
 }
 
 void RedBlackTree::printHelper(Node* node, int space) {
-    constexpr int COUNT = 5; 
+    const int COUNT = 5; 
     if (node == nullptr) { 
         return; 
     }
@@ -203,19 +203,45 @@ void RedBlackTree::printHelper(Node* node, int space) {
 }
 
 int main() {
+    RedBlackTree tree;
     
-    RedBlackTree tree; 
-
-    int choice, num; 
-    std::string filename; 
-
-    while(true) { 
-        std::cout << "Options: " << std::endl;
+    int choice, num;
+    std::string filename;
+    
+    while (true) {
+        std::cout << "Red-Black Tree Operations:" << std::endl;
         std::cout << "1. Add a number" << std::endl;
+        std::cout << "2. Read numbers from a file" << std::endl;
+        std::cout << "3. Print the tree" << std::endl;
+        std::cout << "4. Exit" << std::endl;
+        std::cout << "Enter your choice: ";
+        std::cin >> choice;
+        
+        switch (choice) {
+            case 1:
+                std::cout << "Enter a number to add to the tree: ";
+                std::cin >> num;
+                tree.add(num);
+                std::cout << num << " added to the tree." << std::endl;
+                break;
+            case 2:
+                std::cout << "Enter the filename: ";
+                std::cin >> filename;
+                tree.readFromFile(filename);
+                std::cout << "Numbers read from the file and added to the tree." << std::endl;
+                break;
+            case 3:
+                std::cout << "Red-Black Tree:" << std::endl;
+                tree.print();
+                break;
+            case 4:
+                std::cout << "Exiting program." << std::endl;
+                return 0;
+            default:
+                std::cout << "Invalid choice. Please enter a valid option." << std::endl;
+        }
+        std::cout << std::endl;
     }
-
-
-
 
     return 0;
 }
