@@ -228,17 +228,17 @@ int main() {
                 std::cout << "Enter the filename: ";
                 std::cin >> filename;
                 tree.readFromFile(filename);
-                std::cout << "Numbers read from the file and added to the tree." << std::endl;
+                std::cout << "Numbers to the tree." << std::endl;
                 break;
             case 3:
-                std::cout << "Red-Black Tree:" << std::endl;
+                std::cout << "Tree:" << std::endl;
                 tree.print();
                 break;
             case 4:
                 std::cout << "Exiting program." << std::endl;
                 return 0;
             default:
-                std::cout << "Invalid choice. Please enter a valid option." << std::endl;
+                std::cout << "Please enter a valid option." << std::endl;
         }
         std::cout << std::endl;
     }
