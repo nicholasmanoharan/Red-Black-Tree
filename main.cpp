@@ -1,3 +1,10 @@
+/*
+Nicholas Manoharan
+Mr. Galbraith
+C++/Data Structures
+05/02/2024
+*/
+
 #include <iostream> 
 #include <fstream> 
 #include <sstream> 
@@ -10,8 +17,11 @@ struct Node {
     Node* parent; 
     Node* left; 
     Node* right; 
+
+    //Initiallizing nodes
     Node (int val) : data(val), color(RED), parent(nullptr), left(nullptr), right(nullptr) {}
 };
+
 
 class RedBlackTree { 
 private:
@@ -32,9 +42,43 @@ private:
 
 RedBlackTree::RedBlackTree() : root(nullptr) {}
 
+//Adding numbers into the tree
 void RedBlackTree::add(int data) { 
-    Node* newNode = new Node(data); 
-    fixViolation(newNode);  
+    Node* newNode = new Node(data);
+
+    //Setting new node as the root if the tree is empty 
+   if (root == nullptr) { 
+        root = newNode; 
+        root->color = BLACK; //Ensuring root node is black
+        return; 
+   }
+
+    Node* current = root; 
+    Node* parent = nullptr; 
+    while(current != nullptr) { 
+        parent = current; 
+        if (data < current-> data) { 
+            current = current->left; 
+
+        } else if (data > current -> data) { 
+            current = current->right; 
+        } else { 
+            delete newNode;
+            return; 
+        }
+    }
+
+    //Linking new nodes to its parents
+    newNode->parent = parent; 
+    if (data < parent->data) { 
+        parent->left = newNode; 
+    } else { 
+        parent->right = newNode; 
+    }
+
+    fixViolation(newNode);
+
+
 } 
 
 void RedBlackTree::rotateLeft(Node* node) { 
@@ -160,7 +204,7 @@ void RedBlackTree::readFromFile(const std::string& filename) {
 
 void RedBlackTree::print() {
    if (root == nullptr) { 
-        std::cout << "There is nothing in the tree" << std::endl;
+        std::cout << "There ain't nothing in the tree" << std::endl;
         return; 
 
     }
@@ -168,6 +212,8 @@ void RedBlackTree::print() {
     printHelper(root, 0); 
 }
 
+
+//Help to recursively print the tree
 void RedBlackTree::printHelper(Node* node, int space) {
     const int COUNT = 5; 
     if (node == nullptr) { 
@@ -187,7 +233,7 @@ void RedBlackTree::printHelper(Node* node, int space) {
 
     }
 
-    std::cout << node-> data << "(" << (node->color == RED ? "Red" : "Black") << ") ";
+    std::cout << node-> data << "(" << (node->color == RED ? "R" : "B") << ") ";
 
     if (node -> parent) { 
         std::cout << "Parent: " << node->parent->data;
@@ -209,9 +255,9 @@ int main() {
     std::string filename;
     
     while (true) {
-        std::cout << "Red-Black Tree Operations:" << std::endl;
+        std::cout << "Red-Black Tree Options:" << std::endl;
         std::cout << "1. Add a number" << std::endl;
-        std::cout << "2. Read numbers from a file" << std::endl;
+        std::cout << "2. Read in numbers from a file" << std::endl;
         std::cout << "3. Print the tree" << std::endl;
         std::cout << "4. Exit" << std::endl;
         std::cout << "Enter your choice: ";
@@ -219,23 +265,23 @@ int main() {
         
         switch (choice) {
             case 1:
-                std::cout << "Enter a number to add to the tree: ";
+                std::cout << "Enter a number to add: ";
                 std::cin >> num;
                 tree.add(num);
-                std::cout << num << " added to the tree." << std::endl;
+                std::cout << num << "  was added to the tree." << std::endl;
                 break;
             case 2:
                 std::cout << "Enter the filename: ";
                 std::cin >> filename;
                 tree.readFromFile(filename);
-                std::cout << "Numbers to the tree." << std::endl;
+                std::cout << "Numbers added to the tree." << std::endl;
                 break;
             case 3:
                 std::cout << "Tree:" << std::endl;
                 tree.print();
                 break;
             case 4:
-                std::cout << "Exiting program." << std::endl;
+                std::cout << "Ending the program." << std::endl;
                 return 0;
             default:
                 std::cout << "Please enter a valid option." << std::endl;
