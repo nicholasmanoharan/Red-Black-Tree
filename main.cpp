@@ -86,8 +86,8 @@ void RedBlackTree::add(int data) {
         parent->right = newNode; 
     }
 
-    // Error: Misspelled function name "fixViolation" as "fixViotation"
-    fixViotation(newNode);
+   
+    fixViolation(newNode);
 } 
 
 void RedBlackTree::rotateLeft(Node* node) { 
