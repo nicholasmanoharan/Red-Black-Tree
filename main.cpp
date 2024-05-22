@@ -86,7 +86,6 @@ void RedBlackTree::add(int data) {
         parent->right = newNode; 
     }
 
-   
     fixViolation(newNode);
 } 
 
